@@ -12,7 +12,7 @@ from hurry.filesize import size
 TIMEOUT = 1800
 
 p_values = [0.1, 0.15, 0.2, 0.25, 0.37, 0.5, 0.75, 1]
-n_vertices = [100, 200, 300, 500, 800, 1300, 2100]
+n_vertices = [300]
 cap = [10, 20, 30, 50, 80, 130, 210, 340, 500]
 
 repeat = 5
