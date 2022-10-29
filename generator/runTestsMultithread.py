@@ -12,7 +12,7 @@ from hurry.filesize import size
 TIMEOUT = 1800
 
 p_values = [0.1, 0.15, 0.2, 0.25, 0.37, 0.5, 0.75, 1]
-n_vertices = [300]
+n_vertices = [100, 200, 300, 500, 800, 1300, 2100]
 cap = [10, 20, 30, 50, 80, 130, 210, 340, 500]
 
 repeat = 5
@@ -195,10 +195,12 @@ def main():
 
             for index_v_vertices in range(len(n_vertices)):
                 for index_cap in range(len(cap)):
+                    #','.join(str(e) for e in arrMPM[i])
+                    #str(np.mean(arrMPM[index_v_vertices][index_cap]))
                     fileName = "_p_" + str(p_value) + "_nVertices_" + str(n_vertices[index_v_vertices]) + "_maxValue_" + str(cap[index_cap]) + ".txt"
-                    file.write("MPM" + fileName + ",MPM," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + str(np.mean(arrMPM[index_v_vertices][index_cap])) + "\n")
-                    file.write("EK" + fileName + ",EK," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + str(np.mean(arrEK[index_v_vertices][index_cap])) + "\n")
-                    file.write("Dinic" + fileName + ",Dinic," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + str(np.mean(arrDinic[index_v_vertices][index_cap])) + "\n")
+                    file.write("MPM" + fileName + ",MPM," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrMPM[index_v_vertices][index_cap]) + "\n")
+                    file.write("EK" + fileName + ",EK," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrMPM[index_v_vertices][index_cap]) + "\n")
+                    file.write("Dinic" + fileName + ",Dinic," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrMPM[index_v_vertices][index_cap]) + "\n")
 
 
             file.close()
