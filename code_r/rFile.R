@@ -1,7 +1,7 @@
 library(abind)
 library(ggplot2)
 
-filename = "data/resP0.1.csv"
+filename = "../data/resP0.1.csv"
 
 dataset = read.csv(filename, header = TRUE, sep = ",", dec = ".")
 
@@ -12,7 +12,7 @@ print(dataset)
 
 global_array <- array(numeric(),c(step,amount_algorithms,0)) 
 
-for(i in seq(from = 1, to = nrow(dataset)-1, by = amount_algorithms)){
+for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
     test_array = array(numeric(),c(step,0))    
   
     for(k in 1:amount_algorithms){
