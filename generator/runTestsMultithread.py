@@ -199,8 +199,8 @@ def main():
                     #str(np.mean(arrMPM[index_v_vertices][index_cap]))
                     fileName = "_p_" + str(p_value) + "_nVertices_" + str(n_vertices[index_v_vertices]) + "_maxValue_" + str(cap[index_cap]) + ".txt"
                     file.write("MPM" + fileName + ",MPM," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrMPM[index_v_vertices][index_cap]) + "\n")
-                    file.write("EK" + fileName + ",EK," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrMPM[index_v_vertices][index_cap]) + "\n")
-                    file.write("Dinic" + fileName + ",Dinic," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrMPM[index_v_vertices][index_cap]) + "\n")
+                    file.write("EK" + fileName + ",EK," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrEK[index_v_vertices][index_cap]) + "\n")
+                    file.write("Dinic" + fileName + ",Dinic," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrDinic[index_v_vertices][index_cap]) + "\n")
 
 
             file.close()
