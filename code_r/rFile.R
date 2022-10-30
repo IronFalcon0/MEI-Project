@@ -1,17 +1,11 @@
-
-
-
-
-
-
 library(abind)
 library(ggplot2)
 
-filename = "data/resP0.37.csv"
+filename = "../data/resAll.csv"
 
 dataset = read.csv(filename, header = TRUE, sep = ",", dec = ".")
 
-step = 6
+step = 10
 amount_algorithms = 3
 
 #print(dataset)
@@ -36,38 +30,44 @@ for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
     global_array <- abind(global_array,test_array)
 }
 
+#print(global_array)
 
 
-#Box Plot
 #Type 1 = n_capacidade a mudar
 #Type 2 = n_vertices a mudar
 #Type 3 = p_value a mudar
 type = 2; 
 n_vertices = 500;
 p_value = 0.37;
-capacity = 80;
+capacity = 210;
 
 n_vertices_array_size = 7 
 p_array_size = 8
 capacity_array_size = 9 
 
 
+number_test = 5
 arr_dim = dim(global_array)
 amount = 0;
 
+
+
 if(type == 1){
-  mpm_array <- rep(NA, capacity_array_size)
-  ek_array  <- rep(NA, capacity_array_size)
-  dinic_array  <- rep(NA, capacity_array_size)
+  x = c(10, 20, 30, 50, 80, 130, 210, 340, 500)
+  mpm_array <- array(numeric(),c(number_test,0))   
+  ek_array  <- array(numeric(),c(number_test,0))
+  dinic_array  <- array(numeric(),c(number_test,0))   
   
 }else if(type == 2){
-  mpm_array <- rep(NA, n_vertices_array_size)
-  ek_array  <- rep(NA, n_vertices_array_size)
-  dinic_array  <- rep(NA, n_vertices_array_size)
+  x = c(100, 200, 300, 500, 800, 1300, 2100)
+  mpm_array <- array(numeric(),c(number_test,0))   
+  ek_array  <- array(numeric(),c(number_test,0))   
+  dinic_array  <- array(numeric(),c(number_test,0))   
 }else{
-  mpm_array <- rep(NA, p_array_size)
-  ek_array  <- rep(NA, p_array_size)
-  dinic_array  <- rep(NA, p_array_size)
+  x = c(0.1, 0.15, 0.2, 0.25, 0.37, 0.5, 0.75, 1)
+  mpm_array <- array(numeric(),c(number_test,0))   
+  ek_array  <- array(numeric(),c(number_test,0))   
+  dinic_array  <- array(numeric(),c(number_test,0))   
 }
 
 
@@ -82,18 +82,21 @@ if(type == 1){
   for(i in 1:arr_dim[3]){
     for(j in 1:arr_dim[2]){
       if(global_array[3,j,i] == p_value && global_array[4,j,i] == n_vertices){
-        print(global_array[1,j,i])
+        
         if(global_array[2,j,i] == "MPM"){
-          mpm_array[i_mpm] = global_array[6,j,i]
-          i_mpm <- i_mpm + 1
+          aux <-global_array[6:10,j,i]
+          mpm_array <- abind(mpm_array,aux) 
+          #i_mpm <- i_mpm + 1
         }
         else if(global_array[2,j,i] == "EK"){
-          ek_array[i_ek] = global_array[6,j,i]
-          i_ek <- i_ek + 1
+          print(global_array[6:10,j,i])
+          aux <-global_array[6:10,j,i]
+          ek_array <- abind(ek_array,aux) 
+          #i_ek <- i_ek + 1
         }
         else{
-          dinic_array[i_dinic] = global_array[6,j,i]
-          i_dinic <- i_dinic + 1
+          dinic_array <- abind(dinic_array,global_array[6:10,j,i]) 
+          #i_dinic <- i_dinic + 1
         }
       }
     }
@@ -105,16 +108,16 @@ if(type == 1){
       if(global_array[3,j,i] == p_value && global_array[5,j,i] == capacity){
 
         if(global_array[2,j,i] == "MPM"){
-          mpm_array[i_mpm] = global_array[6,j,i]
-          i_mpm <- i_mpm + 1
+          mpm_array <- abind(mpm_array,global_array[6:10,j,i]) 
+          #i_mpm <- i_mpm + 1
         }
         else if(global_array[2,j,i] == "EK"){
-          ek_array[i_ek] = global_array[6,j,i]
-          i_ek <- i_ek + 1
+          ek_array <- abind(ek_array,global_array[6:10,j,i]) 
+          #i_ek <- i_ek + 1
         }
         else{
-          dinic_array[i_dinic] = global_array[6,j,i]
-          i_dinic <- i_dinic + 1
+          dinic_array <- abind(dinic_array,global_array[6:10,j,i]) 
+          #i_dinic <- i_dinic + 1
         }
       }
     }
@@ -125,16 +128,16 @@ if(type == 1){
     for(j in 1:arr_dim[2]){
       if(global_array[4,j,i] == n_vertices && global_array[5,j,i] == capacity){
         if(global_array[2,j,i] == "MPM"){
-          mpm_array[i_mpm] = global_array[6,j,i]
-          i_mpm <- i_mpm + 1
+          mpm_array <- abind(mpm_array,global_array[6:10,j,i]) 
+          #i_mpm <- i_mpm + 1
         }
         else if(global_array[2,j,i] == "EK"){
-          ek_array[i_ek] = global_array[6,j,i]
-          i_ek <- i_ek + 1
+          ek_array <- abind(ek_array,global_array[6:10,j,i]) 
+          #i_ek <- i_ek + 1
         }
         else{
-          dinic_array[i_dinic] = global_array[6,j,i]
-          i_dinic <- i_dinic + 1
+          dinic_array <- abind(dinic_array,global_array[6:10,j,i]) 
+          #i_dinic <- i_dinic + 1
         }
       }
     }
@@ -142,11 +145,38 @@ if(type == 1){
   }
 }
 
+
+
+
+
+
 print(dinic_array)
 print(mpm_array)
 print(ek_array)
 
-#p <- ggplot(global_array, aes(color, price/carat, fill=color)) + geom_boxplot()
+
+
+#Scatter Plot
+b = data.frame(dinic_array)
+print(b)
+
+p <- ggplot(dsmall, aes(carat, price, color=color)) + geom_point(size=4)
+
+
+
+#Q-q plot
+
+
+
+#Bar plot with error bars
+
+
+
+
+#Density Plot with Area Coloring??
+
+
+#p <- ggplot(b, aes(color, /carat, fill=color)) + geom_boxplot()
 #print(p)
 
 
