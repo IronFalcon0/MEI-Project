@@ -1,4 +1,4 @@
-File,Algorithm,P,n_vertices,max_cap,MeanTime
+File,Algorithm,P,n_vertices,max_cap,T0,T1,T2,T3,T4,T5
 MPM_p_0.1_nVertices_100_maxValue_10.txt,MPM,0.1,100,10,0.0,0.0,0.0,0.0005,0.0
 EK_p_0.1_nVertices_100_maxValue_10.txt,EK,0.1,100,10,0.0,0.0,0.0,0.0005,0.0
 Dinic_p_0.1_nVertices_100_maxValue_10.txt,Dinic,0.1,100,10,0.0,0.0,0.0,0.0005,0.0
