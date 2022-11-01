@@ -50,13 +50,13 @@ for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
 #Type 2 = n_vertices a mudar
 #Type 3 = p_value a mudar
 type = 1; 
-n_vertices = 1000;
+n_vertices = 400;
 p_value = 0.4;
 capacity = 500;
-show3D = TRUE
-showScatter = FALSE
+show3D = FALSE
+showScatter = TRUE
 plot_type = "Dinic" # 1) EK 2) MPM 3) Dinic (atenção aos upper e lower cases)
-n_vertices_cap = 1600 # discards info of graphs larger than n, only applies for type 1 and 3
+n_vertices_cap = 10000 # discards info of graphs larger than n, only applies for type 1 and 3
 
 p_array_size = 11
 n_vertices_array_size = 27 
@@ -222,7 +222,7 @@ if(showScatter){
   
   #m <- lm(y ~ x, b);
   if(type == 1){
-    yub = 1
+    yub = max(c(max(mpm_avg), max(dinic_avg), max(ek_avg))) * 1.25 # deixar espaço em cima do gráfico
     ylb = 0
     p <- ggplot(data = df, aes(x = x, y = y, colour = group)) +
       stat_poly_line(formula = y ~ poly(x, 1, raw = TRUE)) +
@@ -238,7 +238,7 @@ if(showScatter){
   }
   
   if(type == 2 || type == 3){
-    yub = 0.1
+    yub = max(c(max(mpm_avg), max(dinic_avg), max(ek_avg))) * 1.25 # deixar espaço em cima do gráfico
     ylb = 0
   p <- ggplot(data = df, aes(x = x, y = y, colour = group)) +
     stat_poly_line(formula = y ~ poly(x, 2, raw = TRUE)) +
