@@ -49,7 +49,7 @@ for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
 #Type 1 = n_capacidade a mudar
 #Type 2 = n_vertices a mudar
 #Type 3 = p_value a mudar
-type = 3; 
+type = 1; 
 n_vertices = 1300;
 p_value = 0.37;
 capacity = 210;
@@ -67,7 +67,7 @@ number_test = 5
 arr_dim = dim(global_array)
 amount = 0;
 
-plot_type = "EK"
+plot_type = "MPM"
 
 if(type == 1){
   amount = capacity_array_size
@@ -254,9 +254,22 @@ if(show3D){
     y <- df$values_vertices
     z <- df$times
     
+    #ONLY GOD KNOWS HOW THIS WORKS!!!!!!!!!!!!!
+    fit <- lm(z ~ x + y)
+    # predict values on regular xy grid
+    grid.lines = 26
+    x.pred <- seq(min(x), max(x), length.out = grid.lines)
+    y.pred <- seq(min(y), max(y), length.out = grid.lines)
+    xy <- expand.grid( x = x.pred, y = y.pred)
+    z.pred <- matrix(predict(fit, newdata = xy), 
+                     nrow = grid.lines, ncol = grid.lines)
+    
+    fitpoints <- predict(fit)
+    
     scatter3D(x,y,z, pch = 16, theta = 50,phi = 0, bty = "g",main = paste(plot_type," data"), xlab = "Probability",
               ylab ="Number Vertices", zlab = "time", clab = c("Time(s)")
-              ,ticktype = "detailed")
+              ,ticktype = "detailed", surf = list(x = x.pred, y = y.pred, z = z.pred,  
+                                                  facets = NA, fit = fitpoints))
     
   }
   if(type == 2){
@@ -267,6 +280,18 @@ if(show3D){
     y <- df$values_capacity
     z <- df$times
     
+    
+    #ONLY GOD KNOWS HOW THIS WORKS!!!!!!!!!!!!!
+    fit <- lm(z ~ x + y)
+    # predict values on regular xy grid
+    grid.lines = 26
+    x.pred <- seq(min(x), max(x), length.out = grid.lines)
+    y.pred <- seq(min(y), max(y), length.out = grid.lines)
+    xy <- expand.grid( x = x.pred, y = y.pred)
+    z.pred <- matrix(predict(fit, newdata = xy), 
+                     nrow = grid.lines, ncol = grid.lines)
+    
+    fitpoints <- predict(fit)
     scatter3D(x,y,z, pch = 16, theta = 50,phi = 0, bty = "g",main = paste(plot_type," data"), xlab = "Probability",
               ylab ="Capacity", zlab = "time", clab = c("Time(s)")
               ,ticktype = "detailed")
@@ -277,6 +302,19 @@ if(show3D){
     x <- df$values_capacity
     y <- df$values_vertices
     z <- df$times
+    
+    
+    #ONLY GOD KNOWS HOW THIS WORKS!!!!!!!!!!!!!
+    fit <- lm(z ~ x + y)
+    # predict values on regular xy grid
+    grid.lines = 26
+    x.pred <- seq(min(x), max(x), length.out = grid.lines)
+    y.pred <- seq(min(y), max(y), length.out = grid.lines)
+    xy <- expand.grid( x = x.pred, y = y.pred)
+    z.pred <- matrix(predict(fit, newdata = xy), 
+                     nrow = grid.lines, ncol = grid.lines)
+    
+    fitpoints <- predict(fit)
     
     scatter3D(x,y,z, pch = 16, theta = 50,phi = 0, bty = "g",main = paste(plot_type," data"), xlab = "capacity",
               ylab ="vertices", zlab = "time", clab = c("Time(s)")
