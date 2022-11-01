@@ -11,11 +11,15 @@ from hurry.filesize import size
 
 TIMEOUT = 1800
 
-p_values = [0.1, 0.15, 0.2, 0.25, 0.37, 0.5, 0.75, 1]
-n_vertices = [100, 200, 300, 500, 800, 1300, 2100]
+p_values = [0.12, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.8, 1]
+n_vertices = [100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2300, 2600, 2900, 3200, 3500, 4000, 4500, 5000, 5500]
 cap = [10, 20, 30, 50, 80, 130, 210, 340, 500]
 
 repeat = 5
+
+limit_EK = 1000
+limit_MPM = None
+limit_Dinic = None
 
 
 tests_done = 0
@@ -38,7 +42,8 @@ def generate_file(thread_id, p_value, n_vert, cap):
         os.makedirs('autoFiles')
 
     filePath = "autoFiles/testF" + str(thread_id) + ".txt"
-    command = "python3 gen.py " + str(n_vert) + " " + str(p_value) + " " + str(cap) + " " + str(random.randint(0, sys.maxsize)) + " " + filePath;
+    seed = random.randint(0, sys.maxsize)
+    command = "python3 gen.py " + str(n_vert) + " " + str(p_value) + " " + str(cap) + " " + str(seed) + " " + filePath;
     p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     #out, error = p.communicate()
     #print(out, command)
@@ -51,7 +56,7 @@ def generate_file(thread_id, p_value, n_vert, cap):
     if(len(open(filePath).readlines()) <= 1):
         error_file = True
         print(open(filePath).readlines())
-        print(p_value, n_vert, cap)
+        print("p_value: ", p_value, ", n_vert: ", n_vert, ", cap: ", cap, ", seed: ", seed, sep="")
 
     total_file_size += os.path.getsize(filePath)
 
@@ -102,8 +107,8 @@ def runTest(arr):
     
     tests_done += 1
     total_time += time
-    if((tests_done * 100) % total_tests == 0):
-        print((tests_done * 100) / total_tests, "%%  avg =>  ", round((total_time/tests_done), 2) , sep="")
+    if(tests_done % int(total_tests * 0.2) == 0):
+        print((tests_done * 100) / total_tests, "%  avg =>  ", round((total_time/tests_done), 2) , sep="")
     
     # delete file
     delete_file(filePath)
@@ -121,6 +126,8 @@ def select_p_values():
     indexes = [int(x) for x in p_selected.split(";")]
     res = []
     for index in indexes:
+        if(index == -1):
+            return p_values
         if(index < len(p_values)):
             res.append(p_values[index])
     return res
@@ -158,14 +165,20 @@ def main():
                         for r in range(repeat):
                             if t == 0:
                                 algo = "MPM"
+                                if limit_MPM != None and limit_MPM < n_vertices[n_ver]:
+                                    continue
                             elif t == 1:
                                 algo = "EK"
+                                if limit_EK != None and limit_EK < n_vertices[n_ver]:
+                                    continue
                             else:
                                 algo = "Dinic"
+                                if limit_Dinic != None and limit_Dinic < n_vertices[n_ver]:
+                                    continue
                             params.append([p_value, algo, n_ver, n_cap, r, counter])
                             counter += 1
-
-
+            
+            print("Number of tests:", len(params))
             np.random.shuffle(params)
 
             # create thread pool
