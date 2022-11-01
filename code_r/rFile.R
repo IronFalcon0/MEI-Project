@@ -54,13 +54,13 @@ n_vertices = 1300;
 p_value = 0.37;
 capacity = 210;
 
-#n_vertices_array_size = 27 
-#p_array_size = 14
-#capacity_array_size = 9 
-
-n_vertices_array_size = 7 
-p_array_size = 8
+p_array_size = 11
+n_vertices_array_size = 27 
 capacity_array_size = 9 
+
+# n_vertices_array_size = 7 
+# p_array_size = 8
+# capacity_array_size = 9 
 
 
 number_test = 5
