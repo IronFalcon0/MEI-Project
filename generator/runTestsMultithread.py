@@ -8,16 +8,18 @@ import itertools
 import random
 import time
 from hurry.filesize import size
+from copy import deepcopy
 
 TIMEOUT = 1800
 
+one_file = False
 p_values = [0.12, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.8, 1]
 n_vertices = [100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2300, 2600, 2900, 3200, 3500, 4000, 4500, 5000, 5500]
 cap = [10, 20, 30, 50, 80, 130, 210, 340, 500]
 
 repeat = 5
 
-limit_EK = 1000
+limit_EK = 1600
 limit_MPM = None
 limit_Dinic = None
 
@@ -127,18 +129,17 @@ def select_p_values():
     res = []
     for index in indexes:
         if(index == -1):
-            return p_values
+            return deepcopy(p_values)
         if(index < len(p_values)):
             res.append(p_values[index])
     return res
 
 
 def main():
-    global p_values, arrMPM, arrEK, arrDinic, tests_done, total_time, total_file_size
+    global p_values, arrMPM, arrEK, arrDinic, tests_done, total_time, total_file_size, total_tests
     data = []
     while len(p_values) > 0:
         p_selected = select_p_values()
-        #p_selected = [1]
 
         for p_value in p_selected:
             print("Starting test p_value:", p_value)
@@ -178,6 +179,7 @@ def main():
                             params.append([p_value, algo, n_ver, n_cap, r, counter])
                             counter += 1
             
+            total_tests = len(params)
             print("Number of tests:", len(params))
             np.random.shuffle(params)
 
@@ -202,9 +204,15 @@ def main():
             if not os.path.exists('results'):
                 os.makedirs('results')
 
-            outFilePath = "results/resP" + str(p_value) + ".csv"
-            file = open(outFilePath, "w")
-            file.write("File,Algorithm,P,n_vertices,max_cap,MeanTime\n")
+            if one_file:
+                outFilePath = "results/resJoined.csv"
+                file = open(outFilePath, "a+")
+            else:
+                outFilePath = "results/resP" + str(p_value) + ".csv"
+                file = open(outFilePath, "w")
+                file.write("File,Algorithm,P,n_vertices,max_cap,MeanTime\n")
+            
+            
 
             for index_v_vertices in range(len(n_vertices)):
                 for index_cap in range(len(cap)):

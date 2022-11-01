@@ -50,12 +50,13 @@ for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
 #Type 2 = n_vertices a mudar
 #Type 3 = p_value a mudar
 type = 1; 
-n_vertices = 1400;
+n_vertices = 1000;
 p_value = 0.4;
 capacity = 500;
 show3D = TRUE
 showScatter = FALSE
 plot_type = "Dinic" # 1) EK 2) MPM 3) Dinic (atenção aos upper e lower cases)
+n_vertices_cap = 1600 # discards info of graphs larger than n, only applies for type 1 and 3
 
 p_array_size = 11
 n_vertices_array_size = 27 
@@ -114,11 +115,14 @@ if(type == 1){
 if(type == 1){
   for(i in 1:arr_dim[3]){
     for(j in 1:arr_dim[2]){
+      if(as.numeric(global_array[4,j,i]) > n_vertices_cap) {
+        next
+      }
+        
       if(global_array[5,j,i] == capacity && plot_type ==global_array[2,j,i] ){
         values_vertices <- c(values_vertices,rep( as.numeric(global_array[4,j,i]),number_test))
         values_p <- c(values_p,rep( as.numeric(global_array[3,j,i]),number_test))
         times <- c(times,  as.numeric(global_array[6:10,j,i]))
-
         
       }
       if(global_array[3,j,i] == p_value && global_array[4,j,i] == n_vertices){
@@ -164,6 +168,9 @@ if(type == 1){
 }else if(type == 3){
   for(i in 1:arr_dim[3]){
     for(j in 1:arr_dim[2]){
+      if(as.numeric(global_array[4,j,i]) > n_vertices_cap) {
+        next
+      }
       
       if(global_array[3,j,i] == p_value && plot_type ==global_array[2,j,i] ){
         values_capacity <- c(values_capacity,rep( as.numeric(global_array[5,j,i]),number_test))
