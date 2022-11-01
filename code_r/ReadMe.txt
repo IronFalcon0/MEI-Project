@@ -24,6 +24,7 @@
 
 57,58,59 sao os valores do tamanho de casos teste de cada. Descomentar se estiver comentado e apagar os valores nao comentados. Se adicionarem testes (tipo adicionam experiencias com o valor de 520 vertices) incrementem isto senao da merda nos scatter plots.
 
+70, tipo de grafico para grafico 3d (EK, Dinic, MPM)
 75,87,98 descomentem essas linhas e apaguem o outro x = (se usarem o novo dataset)
 
 66- numero de vezes que uma experiencia corre deixar a 5

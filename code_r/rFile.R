@@ -67,7 +67,7 @@ number_test = 5
 arr_dim = dim(global_array)
 amount = 0;
 
-plot_type = "Dinic"
+plot_type = "EK"
 
 if(type == 1){
   amount = capacity_array_size
@@ -189,7 +189,7 @@ print(dinic_array)
 print(mpm_array)
 print(ek_array)
 
-showScatter = TRUE
+showScatter = FALSE
 if(showScatter){
   
   dinic_avg = colMeans(dinic_array)
@@ -245,7 +245,7 @@ if(showScatter){
 
 #3D graph
 
-show3D = FALSE
+show3D = TRUE
 if(show3D){
   if(type == 1){
     df = data.frame(values_p,values_vertices, times)
