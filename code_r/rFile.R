@@ -49,7 +49,7 @@ for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
 #Type 1 = n_capacidade a mudar
 #Type 2 = n_vertices a mudar
 #Type 3 = p_value a mudar
-type = 1; 
+type = 3; 
 n_vertices = 1300;
 p_value = 0.37;
 capacity = 210;
@@ -294,7 +294,8 @@ if(show3D){
     fitpoints <- predict(fit)
     scatter3D(x,y,z, pch = 16, theta = 50,phi = 0, bty = "g",main = paste(plot_type," data"), xlab = "Probability",
               ylab ="Capacity", zlab = "time", clab = c("Time(s)")
-              ,ticktype = "detailed")
+              ,ticktype = "detailed", surf = list(x = x.pred, y = y.pred, z = z.pred,  
+                                                    facets = NA, fit = fitpoints))
   }
   if(type == 3){
     df = data.frame(values_capacity,values_vertices, times)
@@ -318,7 +319,8 @@ if(show3D){
     
     scatter3D(x,y,z, pch = 16, theta = 50,phi = 0, bty = "g",main = paste(plot_type," data"), xlab = "capacity",
               ylab ="vertices", zlab = "time", clab = c("Time(s)")
-              ,ticktype = "detailed")
+              ,ticktype = "detailed", surf = list(x = x.pred, y = y.pred, z = z.pred,  
+                                                  facets = NA, fit = fitpoints))
     
   }
 }
