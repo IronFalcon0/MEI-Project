@@ -26,7 +26,6 @@
 (ALEXY: já descomentei e tá apropriada ao que temos)
 
 70, tipo de grafico para grafico 3d (EK, Dinic, MPM)
-75,87,98 descomentem essas linhas e apaguem o outro x = (se usarem o novo dataset)
 
 66- numero de vezes que uma experiencia corre deixar a 5
 68- nao mexer
