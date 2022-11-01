@@ -6,7 +6,7 @@ library(ggpmisc)
 #install.packages("scatterplot3d") # Install
 library("scatterplot3d") # load
 
-filename = "../data/resAll.csv"
+filename = "../data/resAllL.csv"
 
 library( rgl )
 library(magick)
@@ -49,10 +49,13 @@ for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
 #Type 1 = n_capacidade a mudar
 #Type 2 = n_vertices a mudar
 #Type 3 = p_value a mudar
-type = 3; 
-n_vertices = 1300;
-p_value = 0.37;
-capacity = 210;
+type = 1; 
+n_vertices = 1400;
+p_value = 0.4;
+capacity = 500;
+show3D = TRUE
+showScatter = FALSE
+plot_type = "Dinic" # 1) EK 2) MPM 3) Dinic (atenção aos upper e lower cases)
 
 p_array_size = 11
 n_vertices_array_size = 27 
@@ -67,12 +70,10 @@ number_test = 5
 arr_dim = dim(global_array)
 amount = 0;
 
-plot_type = "MPM"
-
 if(type == 1){
   amount = capacity_array_size
   string = "capacity"
-  #x = c(10, 20, 30, 50, 80, 130, 210, 340, 500)
+
   x = c(10, 20, 30, 50, 80, 130, 210, 340, 500)
   mpm_array <- array(numeric(),c(number_test,0))   
   ek_array  <- array(numeric(),c(number_test,0))
@@ -84,8 +85,9 @@ if(type == 1){
 }else if(type == 2){
   string = "number vertices"
   amount = n_vertices_array_size
-  #x = c(100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2300, 2600, 2900, 3200, 3500, 4000, 4500, 5000, 5500)
-  x = c(100, 200, 300, 500, 800, 1300, 2100)
+
+  x = c(100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2300, 2600, 2900, 3200, 3500, 4000, 4500, 5000, 5500)
+
   mpm_array <- array(numeric(),c(number_test,0))   
   ek_array  <- array(numeric(),c(number_test,0))   
   dinic_array  <- array(numeric(),c(number_test,0)) 
@@ -95,8 +97,9 @@ if(type == 1){
 }else{
   string = "p_value"
   amount = p_array_size
-  #x = c(0.12, 0.15, 0.2, 0.25, 0.30, 0.35, 0.4, 0.5, 0.6, 0.8, 1)
-  x = c(0.1, 0.15, 0.2, 0.25, 0.37, 0.5, 0.75, 1)
+
+  x = c(0.12, 0.15, 0.2, 0.25, 0.30, 0.35, 0.4, 0.5, 0.6, 0.8, 1)
+
   mpm_array <- array(numeric(),c(number_test,0))   
   ek_array  <- array(numeric(),c(number_test,0))   
   dinic_array  <- array(numeric(),c(number_test,0))   
@@ -189,7 +192,7 @@ print(dinic_array)
 print(mpm_array)
 print(ek_array)
 
-showScatter = FALSE
+
 if(showScatter){
   
   dinic_avg = colMeans(dinic_array)
@@ -245,10 +248,12 @@ if(showScatter){
 
 #3D graph
 
-show3D = TRUE
+
 if(show3D){
   if(type == 1){
     df = data.frame(values_p,values_vertices, times)
+    
+    print(times)
   
     x <- df$values_p
     y <- df$values_vertices
