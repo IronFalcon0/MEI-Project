@@ -12,16 +12,16 @@ from copy import deepcopy
 
 TIMEOUT = 1800
 
-one_file = False
+one_file = True
 p_values = [0.12, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.8, 1]
-n_vertices = [100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2300, 2600, 2900, 3200, 3500, 4000, 4500, 5000, 5500]
+n_vertices = [2300] # [100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2300, 2600, 2900, 3200, 3500, 4000, 4500, 5000, 5500]
 cap = [10, 20, 30, 50, 80, 130, 210, 340, 500]
 
 repeat = 5
 
-limit_EK = 1600
-limit_MPM = None
-limit_Dinic = None
+limit_EK = None
+limit_MPM = 0
+limit_Dinic = 0
 
 
 tests_done = 0
@@ -129,7 +129,7 @@ def select_p_values():
     res = []
     for index in indexes:
         if(index == -1):
-            return deepcopy(p_values)
+            return deepcopy(p_values[::-1])
         if(index < len(p_values)):
             res.append(p_values[index])
     return res
@@ -219,9 +219,9 @@ def main():
                     #','.join(str(e) for e in arrMPM[i])
                     #str(np.mean(arrMPM[index_v_vertices][index_cap]))
                     fileName = "_p_" + str(p_value) + "_nVertices_" + str(n_vertices[index_v_vertices]) + "_maxValue_" + str(cap[index_cap]) + ".txt"
-                    file.write("MPM" + fileName + ",MPM," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrMPM[index_v_vertices][index_cap]) + "\n")
+                    #file.write("MPM" + fileName + ",MPM," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrMPM[index_v_vertices][index_cap]) + "\n")
                     file.write("EK" + fileName + ",EK," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrEK[index_v_vertices][index_cap]) + "\n")
-                    file.write("Dinic" + fileName + ",Dinic," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrDinic[index_v_vertices][index_cap]) + "\n")
+                    #file.write("Dinic" + fileName + ",Dinic," + str(p_value) + "," +  str(n_vertices[index_v_vertices]) + "," + str(cap[index_cap]) + "," + ','.join(str(e) for e in arrDinic[index_v_vertices][index_cap]) + "\n")
 
 
             file.close()

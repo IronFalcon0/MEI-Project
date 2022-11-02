@@ -13,8 +13,7 @@ library(magick)
 library("plot3D")
 
 
-
-
+ignore_ek_after = 2000
 
 
 dataset = read.csv(filename, header = TRUE, sep = ",", dec = ".")
@@ -36,6 +35,13 @@ for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
       
       algorithm_array[j] = dataset[i+k,j]
     }
+    if (algorithm_array[2] == "EK" && as.numeric(algorithm_array[4]) > ignore_ek_after) {
+      algorithm_array[6] <- "1000"
+      algorithm_array[7] <- "1000"
+      algorithm_array[8] <- "1000"
+      algorithm_array[9] <- "1000"
+      algorithm_array[10] <- "1000"
+    }
     
     test_array <- abind(test_array,algorithm_array)
   }
@@ -49,14 +55,15 @@ for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
 #Type 1 = n_capacidade a mudar
 #Type 2 = n_vertices a mudar
 #Type 3 = p_value a mudar
-type = 2; 
-n_vertices = 1200;
+type = 3; 
+n_vertices = 400;
 p_value = 0.8;
-capacity = 50;
+capacity = 340;
 show3D = FALSE
 showScatter = TRUE
-plot_type = "MPM" # 1) EK 2) MPM 3) Dinic (atenção aos upper e lower cases)
-n_vertices_cap = 1600 # discards info of graphs larger than n, only applies for type 1 and 3
+plot_type = "EK" # 1) EK 2) MPM 3) Dinic (atenção aos upper e lower cases)
+n_vertices_cap = 2000 # discards info of graphs larger than n, only applies for type 1 and 3
+time_cap = 0.13
 
 p_array_size = 11
 n_vertices_array_size = 27 
@@ -235,6 +242,7 @@ if(showScatter){
   #m <- lm(y ~ x, b);
   if(type == 1){
     yub = max(c(max(mpm_avg), max(dinic_avg), max(ek_avg))) * 1.25 # deixar espaço em cima do gráfico
+    yub = min(yub, time_cap)
     ylb = 0
     p <- ggplot(data = df, aes(x = x, y = y, colour = group)) +
       stat_poly_line(formula = y ~ poly(x, 1, raw = TRUE)) +
@@ -250,7 +258,13 @@ if(showScatter){
   }
   
   if(type == 2 || type == 3){
+    if(type == 2) {
+      str_title = "Number Vertices Evolution"
+    } else {
+      str_title = "Connection probability Evolution"
+    }
     yub = max(c(max(mpm_avg), max(dinic_avg), max(ek_avg))) * 1.25 # deixar espaço em cima do gráfico
+    yub = min(yub, time_cap)
     ylb = 0
   p <- ggplot(data = df, aes(x = x, y = y, colour = group)) +
     stat_poly_line(formula = y ~ poly(x, 2, raw = TRUE)) +
@@ -258,7 +272,7 @@ if(showScatter){
                  aes(label = paste(after_stat(eq.label), after_stat(rr.label), sep = "*\", \"*")))+
     
     geom_point() + ylim(ylb,yub)+
-    labs(title="Number Vertices Evolution",
+    labs(title=str_title,
                                   x = string, y = "Time(s)")
   
   print(p)
