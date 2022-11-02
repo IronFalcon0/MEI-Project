@@ -49,14 +49,14 @@ for(i in seq(from = 0, to = nrow(dataset)-1, by = amount_algorithms)){
 #Type 1 = n_capacidade a mudar
 #Type 2 = n_vertices a mudar
 #Type 3 = p_value a mudar
-type = 1; 
-n_vertices = 400;
-p_value = 0.4;
-capacity = 500;
+type = 2; 
+n_vertices = 1200;
+p_value = 0.8;
+capacity = 50;
 show3D = FALSE
 showScatter = TRUE
-plot_type = "Dinic" # 1) EK 2) MPM 3) Dinic (atenção aos upper e lower cases)
-n_vertices_cap = 10000 # discards info of graphs larger than n, only applies for type 1 and 3
+plot_type = "MPM" # 1) EK 2) MPM 3) Dinic (atenção aos upper e lower cases)
+n_vertices_cap = 1600 # discards info of graphs larger than n, only applies for type 1 and 3
 
 p_array_size = 11
 n_vertices_array_size = 27 
@@ -85,10 +85,19 @@ if(type == 1){
   
 }else if(type == 2){
   string = "number vertices"
-  amount = n_vertices_array_size
+  
 
-  x = c(100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2300, 2600, 2900, 3200, 3500, 4000, 4500, 5000, 5500)
-
+  temp = c(100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 1000, 1200, 1400, 1600, 1800, 2000, 2300, 2600, 2900, 3200, 3500, 4000, 4500, 5000, 5500)
+  x = c()
+  for(id in 1:length(temp)) {
+    if (temp[id] > n_vertices_cap) {
+      break
+    }
+    x <- c(x, temp[id])
+  }
+  
+  amount = length(x)
+  
   mpm_array <- array(numeric(),c(number_test,0))   
   ek_array  <- array(numeric(),c(number_test,0))   
   dinic_array  <- array(numeric(),c(number_test,0)) 
@@ -143,6 +152,9 @@ if(type == 1){
 }else if(type == 2){
   for(i in 1:arr_dim[3]){
     for(j in 1:arr_dim[2]){
+      if(global_array[4,j,i] != n_vertices && as.numeric(global_array[4,j,i]) > n_vertices_cap) {
+        next
+      }
       
       if(global_array[4,j,i] == n_vertices && plot_type ==global_array[2,j,i] ){
         values_capacity <- c(values_capacity,rep( as.numeric(global_array[5,j,i]),number_test))
