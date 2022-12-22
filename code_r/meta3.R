@@ -57,6 +57,6 @@ meta3 <- function(){
   aov_mpm.out <- aov(time ~ cap , data = df6)
   aov_ek.out <- aov(time ~ cap , data = df7)
   
-  print(summary(aov_dinic.out))
-  plot(aov_dinic.out)
+  print(summary(aov_ek.out))
+  plot(aov_ek.out)
 }
